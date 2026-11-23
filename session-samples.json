@@ -1,0 +1,56 @@
+[
+  {
+    "description": "Valid transition: Issued → Active (ACTIVATE)",
+    "type": "Session",
+    "input": { "currentState": "Issued", "event": "ACTIVATE" },
+    "expected": { "success": true, "fromState": "Issued", "toState": "Active" }
+  },
+  {
+    "description": "Valid transition: Issued → Revoked (REVOKE)",
+    "type": "Session",
+    "input": { "currentState": "Issued", "event": "REVOKE" },
+    "expected": { "success": true, "fromState": "Issued", "toState": "Revoked" }
+  },
+  {
+    "description": "Valid transition: Active → Active (VALID_REQUEST, self-loop)",
+    "type": "Session",
+    "input": { "currentState": "Active", "event": "VALID_REQUEST" },
+    "expected": { "success": true, "fromState": "Active", "toState": "Active" }
+  },
+  {
+    "description": "Valid transition: Active → Expired (EXPIRE)",
+    "type": "Session",
+    "input": { "currentState": "Active", "event": "EXPIRE" },
+    "expected": { "success": true, "fromState": "Active", "toState": "Expired" }
+  },
+  {
+    "description": "Valid transition: Active → Revoked (REVOKE)",
+    "type": "Session",
+    "input": { "currentState": "Active", "event": "REVOKE" },
+    "expected": { "success": true, "fromState": "Active", "toState": "Revoked" }
+  },
+  {
+    "description": "Invalid transition: Expired → Active (terminal state)",
+    "type": "Session",
+    "input": { "currentState": "Expired", "event": "ACTIVATE" },
+    "expected": { "success": false, "message": "terminal state" }
+  },
+  {
+    "description": "Invalid transition: Revoked → Active (terminal state)",
+    "type": "Session",
+    "input": { "currentState": "Revoked", "event": "ACTIVATE" },
+    "expected": { "success": false, "message": "terminal state" }
+  },
+  {
+    "description": "Invalid event for state: Issued + EXPIRE",
+    "type": "Session",
+    "input": { "currentState": "Issued", "event": "EXPIRE" },
+    "expected": { "success": false }
+  },
+  {
+    "description": "Invalid event for state: Issued + VALID_REQUEST",
+    "type": "Session",
+    "input": { "currentState": "Issued", "event": "VALID_REQUEST" },
+    "expected": { "success": false }
+  }
+]

@@ -1,0 +1,50 @@
+[
+  {
+    "description": "Valid cookie - simple alphanumeric",
+    "type": "Cookie",
+    "input": { "name": "sessionId", "value": "abc123xyz789" },
+    "expected": { "valid": true }
+  },
+  {
+    "description": "Valid cookie - __Host- prefix",
+    "type": "Cookie",
+    "input": { "name": "__Host-token", "value": "securevalue123" },
+    "expected": { "valid": true }
+  },
+  {
+    "description": "Valid cookie - __Secure- prefix",
+    "type": "Cookie",
+    "input": { "name": "__Secure-id", "value": "abc123" },
+    "expected": { "valid": true }
+  },
+  {
+    "description": "Valid cookie - JWT-like value",
+    "type": "Cookie",
+    "input": { "name": "auth", "value": "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.test.sig" },
+    "expected": { "valid": true }
+  },
+  {
+    "description": "Invalid cookie - space in name",
+    "type": "Cookie",
+    "input": { "name": "bad cookie", "value": "value" },
+    "expected": { "valid": false, "message": "Invalid cookie name" }
+  },
+  {
+    "description": "Invalid cookie - semicolon in value",
+    "type": "Cookie",
+    "input": { "name": "name", "value": "val;ue" },
+    "expected": { "valid": false, "message": "Invalid cookie value" }
+  },
+  {
+    "description": "Invalid cookie - space in value",
+    "type": "Cookie",
+    "input": { "name": "name", "value": "has spaces" },
+    "expected": { "valid": false, "message": "Invalid cookie value" }
+  },
+  {
+    "description": "Invalid cookie - empty name",
+    "type": "Cookie",
+    "input": { "name": "", "value": "value" },
+    "expected": { "valid": false, "message": "Cookie name and value are required." }
+  }
+]
