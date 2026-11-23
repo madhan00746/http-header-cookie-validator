@@ -1,0 +1,57 @@
+[
+  {
+    "description": "Valid response header - Content-Type with charset",
+    "type": "Response Header",
+    "input": { "name": "Content-Type", "value": "text/html; charset=utf-8" },
+    "expected": { "valid": true }
+  },
+  {
+    "description": "Valid response header - X-Content-Type-Options",
+    "type": "Response Header",
+    "input": { "name": "X-Content-Type-Options", "value": "nosniff" },
+    "expected": { "valid": true }
+  },
+  {
+    "description": "Valid response header - Strict-Transport-Security",
+    "type": "Response Header",
+    "input": { "name": "Strict-Transport-Security", "value": "max-age=31536000; includeSubDomains; preload" },
+    "expected": { "valid": true }
+  },
+  {
+    "description": "Valid response header - Content-Security-Policy",
+    "type": "Response Header",
+    "input": { "name": "Content-Security-Policy", "value": "default-src 'self'; script-src 'self'" },
+    "expected": { "valid": true }
+  },
+  {
+    "description": "Valid Set-Cookie with security attributes",
+    "type": "Response Header",
+    "input": { "name": "Set-Cookie", "value": "session=abc123; HttpOnly; Secure; SameSite=Strict; Path=/" },
+    "expected": { "valid": true, "warnings": [] }
+  },
+  {
+    "description": "Set-Cookie missing security attributes",
+    "type": "Response Header",
+    "input": { "name": "Set-Cookie", "value": "session=abc123" },
+    "expected": {
+      "valid": true,
+      "warnings": [
+        "Set-Cookie missing HttpOnly flag.",
+        "Set-Cookie missing Secure flag.",
+        "Set-Cookie missing SameSite attribute."
+      ]
+    }
+  },
+  {
+    "description": "CSP with unsafe-inline",
+    "type": "Response Header",
+    "input": { "name": "Content-Security-Policy", "value": "default-src 'self'; script-src 'unsafe-inline'" },
+    "expected": { "valid": true, "warnings": ["CSP contains unsafe-inline which weakens security."] }
+  },
+  {
+    "description": "Invalid - CRLF injection in response header",
+    "type": "Response Header",
+    "input": { "name": "Location", "value": "https://example.com\r\nSet-Cookie: evil=1" },
+    "expected": { "valid": false, "message": "CRLF injection detected" }
+  }
+]

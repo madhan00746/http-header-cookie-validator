@@ -1,0 +1,26 @@
+# Root .gitignore
+
+# Node
+node_modules/
+npm-debug.log*
+
+# Environment variables - NEVER commit these
+.env
+*.env
+
+# Build outputs
+dist/
+build/
+.vite/
+
+# OS files
+.DS_Store
+Thumbs.db
+
+# Editor
+.vscode/settings.json
+.idea/
+
+# Logs
+*.log
+logs/

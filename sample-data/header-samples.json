@@ -1,0 +1,68 @@
+[
+  {
+    "description": "Valid HTTP request header - Content-Type",
+    "type": "HTTP Header",
+    "input": { "name": "Content-Type", "value": "application/json" },
+    "expected": { "valid": true, "message": "Header is valid." }
+  },
+  {
+    "description": "Valid HTTP request header - Authorization Bearer",
+    "type": "HTTP Header",
+    "input": { "name": "Authorization", "value": "Bearer eyJhbGciOiJIUzI1NiJ9.test.sig" },
+    "expected": { "valid": true }
+  },
+  {
+    "description": "Valid HTTP request header - User-Agent",
+    "type": "HTTP Header",
+    "input": { "name": "User-Agent", "value": "Mozilla/5.0 (Windows NT 10.0; Win64; x64)" },
+    "expected": { "valid": true }
+  },
+  {
+    "description": "Valid HTTP request header - Accept",
+    "type": "HTTP Header",
+    "input": { "name": "Accept", "value": "text/html,application/xhtml+xml,application/xml;q=0.9" },
+    "expected": { "valid": true }
+  },
+  {
+    "description": "Valid HTTP request header - Cache-Control",
+    "type": "HTTP Header",
+    "input": { "name": "Cache-Control", "value": "no-cache, no-store, must-revalidate" },
+    "expected": { "valid": true }
+  },
+  {
+    "description": "Invalid - empty header name",
+    "type": "HTTP Header",
+    "input": { "name": "", "value": "application/json" },
+    "expected": { "valid": false, "message": "Header name and value are required." }
+  },
+  {
+    "description": "Invalid - empty header value",
+    "type": "HTTP Header",
+    "input": { "name": "Content-Type", "value": "" },
+    "expected": { "valid": false, "message": "Header name and value are required." }
+  },
+  {
+    "description": "Invalid - CRLF injection in name",
+    "type": "HTTP Header",
+    "input": { "name": "Bad\r\nHeader", "value": "value" },
+    "expected": { "valid": false, "message": "CRLF injection detected" }
+  },
+  {
+    "description": "Invalid - CRLF injection in value",
+    "type": "HTTP Header",
+    "input": { "name": "Content-Type", "value": "text/html\r\nSet-Cookie: injected=1" },
+    "expected": { "valid": false, "message": "CRLF injection detected" }
+  },
+  {
+    "description": "Invalid - illegal characters in header name",
+    "type": "HTTP Header",
+    "input": { "name": "Content Type", "value": "application/json" },
+    "expected": { "valid": false, "message": "Invalid header name" }
+  },
+  {
+    "description": "Security warning - Authorization without Bearer/Basic",
+    "type": "HTTP Header",
+    "input": { "name": "Authorization", "value": "Token abc123" },
+    "expected": { "valid": true, "warnings": ["Authorization header should use Bearer or Basic scheme."] }
+  }
+]
