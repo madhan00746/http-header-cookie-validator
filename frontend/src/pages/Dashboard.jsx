@@ -1,6 +1,6 @@
 import { useState, useEffect } from "react";
 
-const API = "http://localhost:5000";
+import { API } from "../config";
 
 export default function Dashboard({ onNavigate }) {
   const [stats, setStats] = useState(null);

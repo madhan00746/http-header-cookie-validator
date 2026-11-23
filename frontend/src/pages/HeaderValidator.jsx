@@ -1,6 +1,6 @@
 import { useState } from "react";
 
-const API = "http://localhost:5000";
+import { API } from "../config";
 
 const EXAMPLES = [
   { name: "Content-Type",    value: "application/json" },

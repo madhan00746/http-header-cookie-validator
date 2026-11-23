@@ -1,6 +1,6 @@
 import { useState } from "react";
 
-const API = "http://localhost:5000";
+import { API } from "../config";
 
 const STATES = ["Issued", "Active", "Expired", "Revoked"];
 const EVENTS = ["ACTIVATE", "VALID_REQUEST", "EXPIRE", "REVOKE"];
