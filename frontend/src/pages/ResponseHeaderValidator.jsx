@@ -1,6 +1,7 @@
 import { useState } from "react";
 
 import { API } from "../config";
+import { validateResponseHeaderClient } from "../utils/clientValidators";
 
 const EXAMPLES = [
   { name: "Content-Type",               value: "text/html; charset=utf-8" },
@@ -37,7 +38,8 @@ export default function ResponseHeaderValidator() {
       const data = await res.json();
       setResult(data);
     } catch (e) {
-      setError("Cannot connect to backend. Ensure the server is running on port 5000.");
+      const fallbackResult = validateResponseHeaderClient(name, value);
+      setResult({ ...fallbackResult, input: { name, value }, createdAt: new Date().toISOString() });
     } finally {
       setLoading(false);
     }

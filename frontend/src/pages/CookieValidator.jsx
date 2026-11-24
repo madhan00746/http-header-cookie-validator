@@ -1,6 +1,7 @@
 import { useState } from "react";
 
 import { API } from "../config";
+import { validateCookieClient } from "../utils/clientValidators";
 
 const EXAMPLES = [
   { name: "sessionId",    value: "abc123xyz" },
@@ -36,7 +37,8 @@ export default function CookieValidator() {
       const data = await res.json();
       setResult(data);
     } catch (e) {
-      setError("Cannot connect to backend. Ensure the server is running on port 5000.");
+      const fallbackResult = validateCookieClient(name, value);
+      setResult({ ...fallbackResult, input: { name, value }, createdAt: new Date().toISOString() });
     } finally {
       setLoading(false);
     }

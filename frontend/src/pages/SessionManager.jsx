@@ -1,6 +1,7 @@
 import { useState } from "react";
 
 import { API } from "../config";
+import { updateSessionStateClient } from "../utils/clientValidators";
 
 const STATES = ["Issued", "Active", "Expired", "Revoked"];
 const EVENTS = ["ACTIVATE", "VALID_REQUEST", "EXPIRE", "REVOKE"];
@@ -68,7 +69,13 @@ export default function SessionManager() {
         ...prev,
       ]);
     } catch (e) {
-      setError("Cannot connect to backend server on port 5000.");
+      const fallbackData = updateSessionStateClient(currentState, event);
+      setResult(fallbackData);
+      if (fallbackData.success && fallbackData.state) {
+        setCurrentState(fallbackData.state);
+        const allowed = ALLOWED_TRANSITIONS[fallbackData.state] || [];
+        if (allowed.length > 0) setEvent(allowed[0]);
+      }
     } finally {
       setLoading(false);
     }
